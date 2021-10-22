@@ -11,12 +11,14 @@ struct RequestContext
                    std::string_view port,
                    std::string_view target,
                    verb method = verb::get,
+                   std::string_view body = "",
                    int http_version = 11);
 
     RequestContext(std::string_view host,
                    uint16_t port,
                    std::string_view target,
                    verb method = verb::get,
+                   std::string_view body = "",
                    int http_version = 11);
     friend bool operator==(const RequestContext& r,
                            const RequestContext& l);
@@ -25,6 +27,7 @@ struct RequestContext
     std::string port;
     std::string target;
     verb method;
+    std::string body;
     int http_version;
     boost::beast::http::response<boost::beast::http::string_body> res;
 

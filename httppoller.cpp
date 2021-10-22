@@ -17,9 +17,10 @@ void HttpPoller::Add(std::string_view host,
                        uint16_t port,
                        std::string_view target,
                        verb method,
+                       std::string_view body,
                        int http_version)
 {
-    Add({host, port, target, method, http_version});
+    Add({host, port, target, method, body, http_version});
 }
 
 HttpPoller::agents_t HttpPoller::Get() {
@@ -46,7 +47,7 @@ void HttpPoller::poll_routine_(size_t timeout_mls) {
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
         sum += std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
         ++counter;
-        std::cout << "avr time difference = " << sum/counter << "mls" << std::endl;
+        //std::cout << "avr time difference = " << sum/counter << "mls" << std::endl;
     } while (!wrk_cv_.wait_for(ulock, timeout, wrk_pred));
     std::cerr << "poll_routine_ out" << std::endl;
 }

@@ -15,10 +15,12 @@ Session::Session(boost::asio::io_context& ioc,
     request_timeout_mls_{timeout_mls}
 {}
 
+#include <iostream>
 void Session::run(char const* host,
          char const* port,
          char const* target,
          boost::beast::http::verb method,
+         std::string_view body,
          int version)
 {
     req_.version(version);
@@ -27,6 +29,13 @@ void Session::run(char const* host,
     req_.set(boost::beast::http::field::host, host);
     req_.set(boost::beast::http::field::user_agent,
              BOOST_BEAST_VERSION_STRING);
+    if (body.size()) {
+        std::cout << "preparing body: " << body << std::endl;
+        req_.set(boost::beast::http::field::content_type, "text/plain");
+        req_.set(boost::beast::http::field::content_length, body.size());
+        req_.body() = body.data();
+        req_.prepare_payload();
+    }
 
     resolver_.async_resolve(
         host,
@@ -42,6 +51,7 @@ void Session::run_from_context() {
         rctx_.port.data(),
         rctx_.target.data(),
         rctx_.method,
+        rctx_.body,
         rctx_.http_version);
 }
 

@@ -4,18 +4,22 @@ RequestContext::RequestContext(std::string_view host,
                                std::string_view port,
                                std::string_view target,
                                verb method,
+                               std::string_view body,
                                int http_version):
     host{host}, port{port},
-    target{target}, method{method}, http_version{http_version}
+    target{target}, method{method}, body{body},
+    http_version{http_version}
 {}
 
 RequestContext::RequestContext(std::string_view host,
                                uint16_t port,
                                std::string_view target,
                                verb method,
+                               std::string_view body,
                                int http_version):
     host{host}, port{std::to_string(port)},
-    target{target}, method{method}, http_version{http_version}
+    target{target}, method{method}, body{body},
+    http_version{http_version}
 {}
 
 

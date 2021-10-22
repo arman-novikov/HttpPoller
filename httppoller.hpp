@@ -20,6 +20,7 @@ public:
              uint16_t port,
              std::string_view target,
              verb method = verb::get,
+             std::string_view body = "",
              int http_version = 11);
     void Poll();
     void StartPolling(size_t timeout_mls);

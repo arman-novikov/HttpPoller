@@ -27,6 +27,7 @@ public:
              char const* port,
              char const* target,
              boost::beast::http::verb method,
+             std::string_view body,
              int version);
 
     void set_rctx(const RequestContext& rctx);
@@ -48,7 +49,8 @@ private:
     tcp::resolver resolver_;
     boost::beast::tcp_stream stream_;
     boost::beast::flat_buffer buffer_;
-    boost::beast::http::request<boost::beast::http::empty_body> req_;
+    //boost::beast::http::request<boost::beast::http::empty_body> req_;
+    boost::beast::http::request<boost::beast::http::string_body> req_;
     boost::beast::http::response<boost::beast::http::string_body> res_;
     std::string fail_desc_;
     RequestContext rctx_;
